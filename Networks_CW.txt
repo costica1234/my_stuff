@@ -1,0 +1,21 @@
+Networks and Communication Coursework
+
+1. a)
+
+	The main reason why DNS uses UDP is efficiency. Unlike UDP, TCP needs a several of packets to send over in order to establish a connection. Also DNS does not need to send large packets therefore it can allow itself to care more about speed where it send some packets and all it wants is just a quick response. Therefore UDP is a good choice, however in some cases DNS can actually choose between UDP and TCP when the packet is too large. Also to avoid using TCP, UDP can segment packets and simply sent several of them rather than creating TCP connection. Also since DNS does not care about packets order it does not really need all compexity that TCP has to handle that. In HTTP case, it does care about reliable packets delivery and the order of them that. Another feature of TCP is better security when compared with UDP. It also needs to deal with large payloads therefore TCP (and definitely not UDP) is the tool that can satisfy HTTP.
+
+  b)
+
+
+
+2. a)
+
+	In total 4 round trips excluding connection establishment and termination: 
+		sends sender's address ---> server responses
+		sends receivers address ---> server responses
+		signal of upcoming data ---> server responses
+		send data ---> server responses
+
+	b) 
+
+	The difference between sending one seperate message per user and sending only one message with multiple is efficiency. While sending to multiple users the same email the actuall message is sent only once to the server and then spread out to multiple users where sending this message seperately, it will be necessary to send the data of message as many times as there are receivers. There would be no difference if any of receivers has different email domain, because user connects to its email server and send data over to it, only then server deals with it, but the user still needs to send data only once.
