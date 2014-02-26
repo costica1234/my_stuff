@@ -1,21 +1,58 @@
 Networks and Communication Coursework
 
-1. a)
+1. 
+
+  a)
 
 	The main reason why DNS uses UDP is efficiency. Unlike UDP, TCP needs a several of packets to send over in order to establish a connection. Also DNS does not need to send large packets therefore it can allow itself to care more about speed where it send some packets and all it wants is just a quick response. Therefore UDP is a good choice, however in some cases DNS can actually choose between UDP and TCP when the packet is too large. Also to avoid using TCP, UDP can segment packets and simply sent several of them rather than creating TCP connection. Also since DNS does not care about packets order it does not really need all compexity that TCP has to handle that. In HTTP case, it does care about reliable packets delivery and the order of them that. Another feature of TCP is better security when compared with UDP. It also needs to deal with large payloads therefore TCP (and definitely not UDP) is the tool that can satisfy HTTP.
 
-  b)
+  b)	
+
+  	So at the very beginning it needs to get information about website therefore first UDP connection is used to communicate with local DNS, therefore one packet is send to request data another packet of data is received. After it got all necessary information about web site then it needs to establish TCP connection where client sends SYN, server responses with SYN-ACK and again client send ACK, which is called three way handshake. So three packets are send over network. 
 
 
 
-2. a)
+  	Finally, termination of TCP requires another 4 packets to be send over the network: client sends FIN, server responds with ACK and straight FIN message and lastly client sends ACK where TCP connection ends completely.
 
-	In total 4 round trips excluding connection establishment and termination: 
+
+  c)
+
+  	TCP slow start will not have an affect, because none of the packets are big enough to exceed MSS in other words no need to avoid network congestion.
+
+
+
+
+2. 
+
+	a)
+
+		In total 6 round trips excluding connection establishment and termination: 
+		sends HELO command --> server responses
 		sends sender's address ---> server responses
 		sends receivers address ---> server responses
 		signal of upcoming data ---> server responses
-		send data ---> server responses
+		sends data ---> server responses
+		sends QUIT ---> server responses
 
 	b) 
 
-	The difference between sending one seperate message per user and sending only one message with multiple is efficiency. While sending to multiple users the same email the actuall message is sent only once to the server and then spread out to multiple users where sending this message seperately, it will be necessary to send the data of message as many times as there are receivers. There would be no difference if any of receivers has different email domain, because user connects to its email server and send data over to it, only then server deals with it, but the user still needs to send data only once.
+		The difference between sending one seperate message per user and sending only one message with multiple receivers is efficiency. Seperate messages require to establish and terminate TCP connection for each email and the message (Data) will also be sent many times even though it does not change. This is very inefficient, but sending to multiple receivers data is sent only once and sender's server needs to establish only one TCP connection and send all receivers with corresponding data to particular server. However if receivers email domain is different then it has no choice and it needs to establish TCP connection and send data over as many times as there different domains.
+
+	c)
+
+		At the beginning SMTP sends short packages such as receiver, sender addresses. When it comes to data part, the congestion window might be already quite big and network might just not handle it.
+
+
+3.
+
+	a)
+
+		In GoBackN A sends 9 segments. Segments are send in given order: 1, 2, 3, 4, 5 and it needs to resend segments 2, 3, 4 and 5. B sends 8 ACK's in total where first 4 ACK's has sequence number 1 and the rest of the ACK's will have 2, 3, 4, 5 sequence numbers.
+
+		In Selective Repeat A needs to send 6 segments. First time they are send in this order: 1, 2, 3, 4 and 5 and after it resends segment 2. B sends 5 ACK's in total. First 4 of them has a sequence number 1, 3, 4, 5 and after it, one ACK has sequence number of 2.
+
+		In TCP A needs to send 6 segments. Firstly they are send in order of 1, 2, 3, 4 and 5 and after 2 is being re-sent. B needs to send 5 ACKs in total where 4 of them has sequence number 2 and the other one is 6. This is becouse TCP sends an ACK with an next expected sequence number.
+
+	b)
+
+		It must be TCP, because of fast retransmit which makes TCP not to wait for a timeout of some packets, but makes it retransmit it straight after it gets unexpected (greater) sequence number. 
