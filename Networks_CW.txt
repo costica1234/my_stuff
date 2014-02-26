@@ -10,7 +10,7 @@ Networks and Communication Coursework
 
   	So at the very beginning it needs to get information about website therefore first UDP connection is used to communicate with local DNS, therefore one packet is send to request data another packet of data is received. After it got all necessary information about web site then it needs to establish TCP connection where client sends SYN, server responses with SYN-ACK and again client send ACK, which is called three way handshake. So three packets are send over network. 
 
-
+  	Then client sends request for HTTP and gets ACK so we have 2 packets so far plus html file request (assume html file has size less than MSS) with 3 pics therefore we get 4 packets with 4 ACKs so for data we have 10 packets in total. 
 
   	Finally, termination of TCP requires another 4 packets to be send over the network: client sends FIN, server responds with ACK and straight FIN message and lastly client sends ACK where TCP connection ends completely.
 
@@ -26,13 +26,7 @@ Networks and Communication Coursework
 
 	a)
 
-		In total 6 round trips excluding connection establishment and termination: 
-		sends HELO command --> server responses
-		sends sender's address ---> server responses
-		sends receivers address ---> server responses
-		signal of upcoming data ---> server responses
-		sends data ---> server responses
-		sends QUIT ---> server responses
+		In total 6 round trips excluding connection establishment and termination: HELO, MAIL FROM, RCPT TO, DATA, email message where last char is dot, and QUIT.
 
 	b) 
 
@@ -40,7 +34,7 @@ Networks and Communication Coursework
 
 	c)
 
-		At the beginning SMTP sends short packages such as receiver, sender addresses. When it comes to data part, the congestion window might be already quite big and network might just not handle it.
+		At the beginning SMTP sends short packages such as receiver, sender addresses which increases increases window size using assumtion of fast network. When it comes to data part, the congestion window might be already quite big and it would try to send mail body at once and network might just not handle it.
 
 
 3.
@@ -61,11 +55,35 @@ Networks and Communication Coursework
 
 
 
+4.
+
+	a)  Assumtion: system use TCP Tahoe.
+
 		Time	Phase (SS or CA)	CWND (#segments)	CWND threshold		Packets to transmit
----------------------------------------------------------------------------------------
-0		SS					1					infinity			1			
-1		SS					2					infinity			2, 3
-2		SS					4					infinity			4, 5, 6, 7
-3		SS					1					2					4
-4		SS					2					2					8, 9
-5		CA					3					2					10, 11, 12
+		---------------------------------------------------------------------------------------
+		0		SS					1					infinity			1			
+		1		SS					2					infinity			2, 3
+		2		SS					4					infinity			4, 5, 6, 7
+		3		SS					1					2					4
+		4		SS					2					2					8, 9
+		5		CA					3					2					10, 11, 12
+
+
+	b)
+		total number of packets transmitted / total time = 12 packets sent / 6 seconds = 2 packets/s
+
+
+5.
+
+	a)
+		Utilisation is inversally proportional to RTT therefore we get:
+		Utilization ratio X : Y = 1/(RTTx * Bandwidthx) : 1/(RTTy * Bandwidthy) = (10 * 100) : (1000 * 1 * 1024) = 1024 : 1 = 1024
+
+	b)
+
+		For throughput we have (1.22 * MSS) / (RTT * P^0.5) therefore X : Y = (1.22 * MSS)/(RTT * Px^0.5) : (1.22 * MSS)/(RTT * Py^0.5) = 1 / 1^0.5 : 1 / 4^0.5 = 1 : 1/2 = 2
+
+	c)
+
+		For large RTT we can use TCP splitting which maintains connection with a very large congestion window.
+		For lossy links, we can split tcp connections to distinguish wired/wireless IP or let the base station do at least some retransmission, but without informing the source.
