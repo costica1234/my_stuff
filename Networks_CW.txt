@@ -56,3 +56,16 @@ Networks and Communication Coursework
 	b)
 
 		It must be TCP, because of fast retransmit which makes TCP not to wait for a timeout of some packets, but makes it retransmit it straight after it gets unexpected (greater) sequence number. 
+
+
+
+
+
+		Time	Phase (SS or CA)	CWND (#segments)	CWND threshold		Packets to transmit
+---------------------------------------------------------------------------------------
+0		SS					1					infinity			1			
+1		SS					2					infinity			2, 3
+2		SS					4					infinity			4, 5, 6, 7
+3		SS					1					2					4
+4		SS					2					2					8, 9
+5		CA					3					2					10, 11, 12
