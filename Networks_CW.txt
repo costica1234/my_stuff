@@ -88,4 +88,4 @@ Networks and Communication Coursework
 		For large RTT we can use TCP splitting which maintains connection with a very large congestion window.
 		For lossy links, we can split tcp connections to distinguish wired/wireless IP or let the base station do at least some retransmission, but without informing the source.
 
-Our answer is: 1235.
+Our answer is: 1234.
