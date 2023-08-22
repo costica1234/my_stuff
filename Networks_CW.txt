@@ -91,9 +91,5 @@ Networks and Communication Coursework
 Our answer is: 1234.
 
 The next answers are:
-50b5b3380938a2a24d18848f6b6ddba908891572082c22d072731a320468d58b
-1c34f541c8058e9c9c75d5cd38258cc68639ed6d75bc470262d642ad0e80d8a1
-d4fbcf67c5dc06dfadca421454b68bec504762e367abf6a5ca30585f65a4a42e
-999f536ded92cb264c297ca90de5b894cf1eac5a3997d0b3aa10570d902118bf
 
 Homework is now complete.
